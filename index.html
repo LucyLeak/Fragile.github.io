@@ -2,26 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mentally Fragile</title>
+  <title>static://mind_corrupted.exe</title>
   
-  <!-- CSS: Estilos e Animações -->
   <style>
-    .shaky {
-      display: inline-block;
-      animation: shake 0.15s infinite;
+    @font-face {
+      font-family: 'VT323';
+      src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
     }
 
-    @keyframes blink {
-      50% { visibility: hidden; }
+    body, html {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+      color: #fff;
+      font-family: 'VT323', monospace;
+      image-rendering: pixelated;
     }
-    @keyframes pulse-bg {
-      0%, 100% { background-color: #000; }
-      50% { background-color: #000; }
+
+    #container {
+      width: 80%;
+      height: 90vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      position: relative;
     }
-    @keyframes bleed {
-      0%, 100% { color: #fff; }
-      50% { color: #800000; }
+
+    .line {
+      margin: 10px 0;
+      position: relative;
+      white-space: pre-wrap;
     }
+
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+    }
+
+    .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 #ff00ff;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim 5s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      left: -2px;
+      text-shadow: -2px 0 #00ffff;
+      clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim2 5s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim {
+      0% { clip: rect(31px, 9999px, 94px, 0); }
+      10% { clip: rect(112px, 9999px, 76px, 0); }
+      20% { clip: rect(85px, 9999px, 77px, 0); }
+      30% { clip: rect(27px, 9999px, 97px, 0); }
+      40% { clip: rect(64px, 9999px, 98px, 0); }
+      50% { clip: rect(61px, 9999px, 85px, 0); }
+      60% { clip: rect(99px, 9999px, 114px, 0); }
+      70% { clip: rect(34px, 9999px, 115px, 0); }
+      80% { clip: rect(98px, 9999px, 129px, 0); }
+      90% { clip: rect(43px, 9999px, 96px, 0); }
+      100% { clip: rect(82px, 9999px, 64px, 0); }
+    }
+
+    @keyframes glitch-anim2 {
+      0% { clip: rect(65px, 9999px, 119px, 0); }
+      10% { clip: rect(79px, 9999px, 66px, 0); }
+      20% { clip: rect(119px, 9999px, 103px, 0); }
+      30% { clip: rect(20px, 9999px, 107px, 0); }
+      40% { clip: rect(86px, 9999px, 132px, 0); }
+      50% { clip: rect(17px, 9999px, 56px, 0); }
+      60% { clip: rect(97px, 9999px, 129px, 0); }
+      70% { clip: rect(91px, 9999px, 98px, 0); }
+      80% { clip: rect(74px, 9999px, 103px, 0); }
+      90% { clip: rect(107px, 9999px, 57px, 0); }
+      100% { clip: rect(100px, 9999px, 83px, 0); }
+    }
+
+    @keyframes flicker {
+      0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+        opacity: 0.99;
+      }
+      20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+        opacity: 0.4;
+      }
+    }
+
+    @keyframes textShadow {
+      0% { text-shadow: 0 0 0px #fff; }
+      50% { text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #00ffff; }
+      100% { text-shadow: 0 0 0px #fff; }
+    }
+
     @keyframes shake {
       0% { transform: translate(0px, 0px) rotate(0deg); }
       25% { transform: translate(1px, -1px) rotate(-1deg); }
@@ -30,209 +113,255 @@
       100% { transform: translate(0px, -1px) rotate(-1deg); }
     }
 
-    body, html {
-      margin: 0;
-      height: 100%;
-      overflow: hidden;
+    .shaky {
+      display: inline-block;
+      animation: shake 0.15s infinite;
     }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: pulse-bg 6s ease-in-out infinite;
-      font-family: monospace;
-      background-color: #000;
-      color: #fff;
+    .bleeding {
+      color: #ff0000;
+      text-shadow: 0 0 5px #ff0000;
+      animation: bleed 5s infinite;
     }
 
-    #container {
-      width: 80%;
-      max-height: 90%;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-    }
-
-    .line {
-      display: flex;
-      align-items: center;
-      margin: 6px 0;
-      animation: bleed 8s ease-in-out infinite;
-    }
-
-    .line.guilt {
-      color: #f33;
-      font-style: italic;
-      animation: none;
-    }
-
-    .text {
-      white-space: pre-wrap;
+    @keyframes bleed {
+      0% { opacity: 0.8; }
+      50% { opacity: 0.3; }
+      100% { opacity: 0.8; }
     }
 
     .cursor {
+      display: inline-block;
       width: 10px;
-      height: 1em;
-      background-color: #800000;
-      margin-left: 4px;
-      animation: blink 0.7s step-end infinite;
+      height: 20px;
+      background-color: white;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(255, 255, 255, 0.04) 50%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      animation: flicker 0.15s infinite;
+      z-index: 9999;
+    }
+
+    #noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABGSURBVGhD7cExAQAwDMCg+zfdm1gQJPAHJ7ZbSJKkP5zIkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiRJkiTpBQ8fLAGQZ1VXJQAAAABJRU5ErkJggg==');
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9998;
     }
   </style>
 </head>
 
 <body>
-  <!-- Área onde o texto será renderizado -->
+  <div id="noise"></div>
+  <div class="scanlines"></div>
   <div id="container"></div>
 
-  <!-- JavaScript: Lógica do Texto e Efeitos -->
   <script>
-    (async () => {
-      const totalLines = 50;
-      const fragText = "I'm not crazy. I'm just mentally fragile.";
-      const guiltMsgs = [
-        "You promised you'd stay with me...",
-        "Do you hate me? Why are you ignoring me? You don't even know me...",
-        "I'm not unwell. I'm just mentally fragile.",
-        "I want it to end... I want an end...",
-        "Why do you take so long to reply?",
-        "I always try to talk but no one comes to me.",
-        "My heart isn't made of steel, I'm not made of iron to endure this pain.",
-        "Sometimes I wish I could just disappear without anyone noticing... just fade out quietly.",
-        "I'm not dramatic, I'm just tired of pretending I'm okay when I'm clearly not.",
-        "Do you even see me? Or am I just another background noise in your life?",
-        "I try so hard to be liked, but it never feels enough...",
-        "I don’t want attention. I want someone to understand.",
-        "You smile at me like I’m fine, but inside, I’m screaming.",
-        "Maybe I talk too much. Or maybe I just talk because I’m scared of being forgotten.",
-        "I hate needing people. It always ends with me feeling too much and them feeling nothing.",
-        "I’m so good at hiding it that even I forget how much it hurts sometimes.",
-        "If I vanished right now, how long would it take for you to notice?",
-        "I get it. I'm a burden. You don’t have to say it.",
-        "Even when I’m surrounded by people, I still feel like no one hears me."
-      ];
+    const thoughts = [
+      "why does everything feel so heavy?",
+      "do they actually care or am i just convenient?",
+      "static://friendship_not_found.exe",
+      "i smile and they think i'm okay",
+      "the loneliness is louder at night",
+      "how many days since someone genuinely asked how i was?",
+      "i'm so tired of being the broken one",
+      "they say it gets better but when?",
+      "ERROR: HAPPINESS_NOT_FOUND",
+      "i'm just background noise in everyone's life",
+      "if i disappeared would anyone notice?",
+      "why is it so hard to just exist?",
+      "the pills don't fix the emptiness",
+      "i'm drowning but no one sees the water",
+      "every laugh feels like a lie",
+      "how many more times can my heart break?",
+      "i'm not sad i'm just... empty",
+      "do i even matter to anyone?",
+      "the mirror shows someone i don't recognize",
+      "i'm so tired of pretending",
+      "why does helping others hurt me?",
+      "i want to scream but my voice is gone",
+      "the darkness feels safer than the light",
+      "how did i become this fragile?",
+      "i'm not suicidal just... tired of living",
+      "the weight of existing is crushing me",
+      "why does love always leave?",
+      "i'm a ghost in my own life",
+      "the pain is familiar at least",
+      "how many more nights like this?",
+      "i'm not okay but no one wants to hear that",
+      "the sadness has become part of me",
+      "why do i keep trying when it never matters?",
+      "i'm so alone in this crowded room",
+      "the mask is getting too heavy to wear",
+      "how much longer can i keep this up?",
+      "i'm not depressed just... realistically hopeless",
+      "the world moves on without me",
+      "why does everything i touch turn to dust?",
+      "i'm a burden and i know it",
+      "the tears don't come anymore",
+      "how many fake smiles today?",
+      "i'm not living just existing",
+      "the silence is louder than words",
+      "why can't i just be normal?",
+      "i'm so tired of being strong",
+      "the pain is the only thing that feels real",
+      "how many more times will i break?",
+      "i'm not here i'm just... gone"
+    ];
 
-      const baseDelay = 50;
-      const lineDelay = 500;
-      const shakyWords = ['me', 'you', 'stay', 'hate', 'end', 'reply', 'heart', 'pain', 'talk', 'alone', 'disappear', 'pretending', 'notice', 'burden', 'understand'];
+    const container = document.getElementById('container');
+    let lineCount = 0;
+    const maxLines = 100;
+    let isScrolling = false;
 
-      const container = document.getElementById('container');
-
-      const keySound = new Audio('https://raw.githubusercontent.com/MeepCastana/CreamyKeys/main/sounds/a.mp3');
-      const spaceSound = new Audio('https://raw.githubusercontent.com/MeepCastana/CreamyKeys/main/sounds/space.mp3');
-
-      function playSound(char) {
-        const sound = (char === ' ') ? spaceSound.cloneNode() : keySound.cloneNode();
-        sound.volume = 1;
-        sound.play();
+    function createGlitchText(text) {
+      const line = document.createElement('div');
+      line.className = 'line glitch';
+      line.setAttribute('data-text', text);
+      
+      const textSpan = document.createElement('span');
+      textSpan.textContent = text;
+      
+      line.appendChild(textSpan);
+      
+      // Random effects
+      if (Math.random() < 0.3) {
+        textSpan.classList.add('bleeding');
       }
-
-      function getCharDelay(char) {
-        if (char === '.' || char === ',' || char === '…') return baseDelay * 6 + Math.random() * 200;
-        if (char === '?' || char === '!') return baseDelay * 8 + Math.random() * 300;
-        return baseDelay + Math.random() * 60;
+      
+      if (Math.random() < 0.2) {
+        const words = text.split(' ');
+        textSpan.innerHTML = '';
+        words.forEach(word => {
+          const wordSpan = document.createElement('span');
+          if (Math.random() < 0.3) {
+            wordSpan.classList.add('shaky');
+          }
+          wordSpan.textContent = word + ' ';
+          textSpan.appendChild(wordSpan);
+        });
       }
+      
+      return line;
+    }
 
-      function humanScramble(str) {
-        const arr = str.split('');
-        // escolhe de 1 a 3 swaps por vez
-        const swaps = 1 + Math.floor(Math.random() * 3);
-        for (let s = 0; s < swaps; s++) {
-          const i = Math.floor(Math.random() * arr.length);
-          const j = Math.floor(Math.random() * arr.length);
-          [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr.join('');
-      }
+    function addCursor(line) {
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      line.appendChild(cursor);
+      return cursor;
+    }
 
-      function scheduleScramble() {
-        const timeout = 8000 + Math.random() * 7000;
-        setTimeout(() => {
-          const lines = document.querySelectorAll('.line .text');
-          const idx   = Math.floor(Math.random() * lines.length);
-          const el    = lines[idx];
-          const orig  = window._originalLines[idx] || el.textContent;
-
-          // passo 1: mostrar texto “quebrado”
-          el.textContent = humanScramble(orig);
-
-          // passo 2: restaura após 400–800 ms
-          setTimeout(() => {
-            el.textContent = orig;
-            // agendar próximo pane
-            scheduleScramble();
-          }, 400 + Math.random() * 400);
-        }, timeout);
-      }
-
-      // começa uma vez ao final do seu IIFE
-      scheduleScramble();
-
-      for (let i = 0; i < totalLines; i++) {
-        const isGuilt = Math.random() < 0.35;
-        const text = isGuilt
-          ? guiltMsgs[Math.floor(Math.random() * guiltMsgs.length)]
-          : fragText;
-
-        const div = document.createElement('div');
-        const span = document.createElement('span');
-        const cursor = document.createElement('span');
-
-        div.className = 'line' + (isGuilt ? ' guilt' : '');
-        span.className = 'text';
-        cursor.className = 'cursor';
-
-        div.appendChild(span);
-        div.appendChild(cursor);
-        container.appendChild(div);
-
-        for (let j = 0; j < text.length; j++) {
-          let char = text[j];
-          const wordBuffer = text.slice(j).match(/^\w+/);
-          const currentWord = wordBuffer ? wordBuffer[0].toLowerCase() : '';
-
-          const spanChar = document.createElement('span');
-
-          if (isGuilt && shakyWords.includes(currentWord)) {
-            spanChar.classList.add('shaky');
-            spanChar.textContent = char;
-            span.appendChild(spanChar);
-            playSound(char);
-            await new Promise(res => setTimeout(res, getCharDelay(char)));
-
-            for (let k = 1; k < currentWord.length; k++) {
-              j++;
-              char = text[j];
-              const nextChar = document.createElement('span');
-              nextChar.classList.add('shaky');
-              nextChar.textContent = char;
-              span.appendChild(nextChar);
-              playSound(char);
-              await new Promise(res => setTimeout(res, getCharDelay(char)));
+    async function typeText(line, text, cursor) {
+      return new Promise(resolve => {
+        let i = 0;
+        const typing = setInterval(() => {
+          if (i < text.length) {
+            line.firstChild.textContent = text.substring(0, i + 1);
+            i++;
+            
+            // Random glitch effect
+            if (Math.random() < 0.05) {
+              line.firstChild.textContent = scrambleText(line.firstChild.textContent);
+              setTimeout(() => {
+                line.firstChild.textContent = text.substring(0, i + 1);
+              }, 100 + Math.random() * 200);
             }
-            continue;
+          } else {
+            clearInterval(typing);
+            if (cursor) cursor.remove();
+            resolve();
           }
+        }, 30 + Math.random() * 70);
+      });
+    }
 
-          if (!window._originalLines) window._originalLines = [];
-          window._originalLines.push(span.textContent);
-
-
-          const shouldRepeat = isGuilt && Math.random() < 0.05 && char.match(/[a-zA-Z]/);
-          const repeatCount = shouldRepeat ? 1 + Math.floor(Math.random() * 2) : 0;
-
-          for (let r = 0; r <= repeatCount; r++) {
-            const repeatedChar = document.createElement('span');
-            repeatedChar.textContent = char;
-            span.appendChild(repeatedChar);
-            playSound(char);
-            await new Promise(res => setTimeout(res, getCharDelay(char)));
-          }
+    function scrambleText(text) {
+      const chars = '!@#$%^&*()_+-=[]{}|;\':",./<>?~';
+      let result = '';
+      for (let i = 0; i < text.length; i++) {
+        if (Math.random() < 0.3) {
+          result += chars[Math.floor(Math.random() * chars.length)];
+        } else {
+          result += text[i];
         }
-        
-        cursor.remove();
-        container.scrollTop = container.scrollHeight;
-        await new Promise(res => setTimeout(res, lineDelay));
       }
-    })();
+      return result;
+    }
+
+    async function addNewLine() {
+      if (lineCount > maxLines) {
+        container.removeChild(container.firstChild);
+        lineCount--;
+      }
+      
+      const text = thoughts[Math.floor(Math.random() * thoughts.length)];
+      const line = createGlitchText(text);
+      container.appendChild(line);
+      
+      const cursor = addCursor(line);
+      await typeText(line, text, cursor);
+      
+      lineCount++;
+      
+      if (!isScrolling) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }
+
+    // Infinite typing
+    async function infiniteTyping() {
+      while (true) {
+        await addNewLine();
+        await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1500));
+      }
+    }
+
+    // Handle scroll
+    container.addEventListener('scroll', () => {
+      isScrolling = true;
+      clearTimeout(window.scrollTimeout);
+      window.scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+        container.scrollTop = container.scrollHeight;
+      }, 2000);
+    });
+
+    // Start
+    infiniteTyping();
+
+    // Random full page glitch
+    setInterval(() => {
+      if (Math.random() < 0.1) {
+        document.body.style.transform = 'translateX(' + (Math.random() * 10 - 5) + 'px)';
+        setTimeout(() => {
+          document.body.style.transform = 'translateX(0)';
+        }, 100);
+      }
+    }, 5000);
   </script>
 </body>
 </html>
